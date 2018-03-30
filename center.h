@@ -1,3 +1,7 @@
+//Scott Saunders
+// March 2018
+
+//A simple center-difference numerical approximation of a derivative.
 #pragma once
 #include <functional>
 
