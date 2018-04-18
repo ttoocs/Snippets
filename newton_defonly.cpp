@@ -4,25 +4,37 @@
 //A macro-only implmentation of newtons method.
 //(Should be good-enough for GLSL)
 
-//#include "center_defonly.cpp"
+//IF YOU ARE USING THIS, YOU NEED SOME LEVEL OF COMPILER OPTIMIZATION. THIS IS REDICULOUS ALREADY.
 
 #define NAE 0.001
-#define TOL NAE*10
+#define TOL (NAE*10)
 
-#define NumDeriv1D(F,X) ((F(X+NAE) - F(X-NAE))/2*NAE)
+#define NumDeriv1D(F,X) ((F(X+NAE) - F(X-NAE))/(2*NAE))
 
 //X - Guess,
-#define NEWTONS1D(F,X) (X -   (F(X)/NumDeriv1D(F,X)))
+#define NEWTONS1D(F,X) ((NumDeriv1D(F,X)*NumDeriv1D(F,X) > NAE*NAE)? X -   (F(X)/NumDeriv1D(F,X)) : X)
 #define NEWTONS1D2(F,X) NEWTONS1D(F,NEWTONS1D(F,X))
 #define NEWTONS1D4(F,X) NEWTONS1D2(F,NEWTONS1D2(F,X))
 
-double f(double x){
+//Expanded out.. this needed at least 12Gb for the 8-iterations. You have been warned.
+// #define NEWTONS1D8(F,X) NEWTONS1D4(F,NEWTONS1D4(F,X))
+// #define NEWTONS1D16(F,X) NEWTONS1D8(F,NEWTONS1D8(F,X))
+// #define NEWTONS1D32(F,X) NEWTONS1D16(F,NEWTONS1D16(F,X))
+
+
+
+#ifdef NEWTON_STANDALONE
+
+double f (double x){
   return x*2;
-}
+};
+
 
 #include <iostream>
 int main(){
-  
-  std::cout << NEWTONS1D(f,1) << std::endl;
+ 
+  double x = 10;
+  std::cout << NEWTONS1D32(f,x) << std::endl;
 
 }
+#endif
