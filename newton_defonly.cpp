@@ -35,7 +35,7 @@ double f (double x){
 int main(){
  
   double x = 10;
-  std::cout << NEWTONS1D32(f,x) << std::endl;
+  std::cout << NEWTONS1D4(f,x) << std::endl;
 
 }
 #endif
