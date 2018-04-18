@@ -5,7 +5,8 @@
 //(Should be good-enough for GLSL)
 
 //IF YOU ARE USING THIS, YOU NEED SOME LEVEL OF COMPILER OPTIMIZATION. THIS IS REDICULOUS ALREADY.
-#pragma once
+#ifndef NEWTON_DEFONLY
+#define NEWTON_DEFONLY
 
 #ifndef NAE
 #define NAE 0.001
@@ -15,8 +16,8 @@
 
 //X - Guess,
 #define NEWTONS1D(F,X) ((NumDeriv1D(F,X)*NumDeriv1D(F,X) > NAE*NAE)? X -   (F(X)/NumDeriv1D(F,X)) : X)
-#define NEWTONS1D2(F,X) NEWTONS1D(F,NEWTONS1D(F,X))
-#define NEWTONS1D4(F,X) NEWTONS1D2(F,NEWTONS1D2(F,X))
+#define NEWTONS1D2(F,X) (NEWTONS1D(F,NEWTONS1D(F,X)))
+#define NEWTONS1D4(F,X) (NEWTONS1D2(F,NEWTONS1D2(F,X)))
 
 //Expanded out.. this needed at least 12Gb of ram for the 8-iterations. You have been warned.
 // #define NEWTONS1D8(F,X) NEWTONS1D4(F,NEWTONS1D4(F,X))
@@ -38,4 +39,5 @@ int main(){
   std::cout << NEWTONS1D4(f,x) << std::endl;
 
 }
+#endif
 #endif
