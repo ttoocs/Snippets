@@ -1,10 +1,13 @@
+#pragma once
 //Scott Saunders
 //March 2018
 
 //A macro-only attempt at center difference numerical approxmation of a derivative.
 // (It should work in GLSL!)
 
+#ifndef NAE
 #define NAE 0.00001
+#endif
 #define NumDeriv1D(Y,X,F) Y = (( F(X+NAE) - F(X_NAE))/(2*NAE))
 
 #define NumDeriv3D(A,B,C,X,Y,Z,F) A = ((F(X+NAE,  Y,      Z)   - (F(X-NAE,  Y,     Z   )))/(2*NAE)) ;\
